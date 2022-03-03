@@ -22,6 +22,7 @@ log.txt
 /.sourcemaps
 /.versions
 /.vscode
+/__pycache__
 
 #where our sequence/training data goes
 /data
