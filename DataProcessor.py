@@ -45,7 +45,6 @@ class DataProcessor():
         ##select cluster for label, where cluster is a list of integers to choose out of our total labels
         #label = self.label[:, self.cell_cluster]
 
-        print(self.encode_fasta)
 
         encode_label = np.zeros((self.encode_fasta.shape[0], self.label.shape[1]))
         neg_label = np.zeros((self.neg_fasta.shape[0], self.label.shape[1]))
@@ -84,6 +83,34 @@ class DataProcessor():
         np_comp_seqs = np.array(comp_seqs, dtype=object)
         input_data = np.append(self.data, np_comp_seqs, axis=0)
         input_labels = np.append(self.data, np_comp_seqs, axis=0)
+    
+    def convert_to_feature_vector(self,input_data):
+        '''
+        returns data with feature vectors instead of nucleotides
+        '''
+        new_data = []
+        print("total sequences", input_data.shape)
+        counter = 0
+        for seq in input_data:
+            if(counter % 10000 == 0):
+                print("on sequence", counter)
+
+            row_index = 0
+            feature = np.zeros((len(seq), 4))
+            for base in seq:
+                if base == 'A':
+                    feature[row_index, 0] = 1
+                elif base == 'T':
+                    feature[row_index, 1] = 1
+                elif base == 'G':
+                    feature[row_index, 2] = 1
+                elif base == 'C':
+                    feature[row_index, 3] = 1
+                row_index += 1
+            new_data.append(feature)
+            counter += 1
+        return np.array(new_data, dtype=object)
+        
 
 
         

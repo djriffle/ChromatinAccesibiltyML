@@ -26,6 +26,9 @@ if __name__ == "__main__":
     # dataProcessor.find_DNA_complements(data,labels)
     # print("Complemnts Done")
 
+    data = dataProcessor.convert_to_feature_vector(data)
+    print(data.shape)
+
     data_train, data_eval, data_test, label_train, \
     label_eval, label_test, test_size = dataProcessor.split_train_test(data, labels)
 
