@@ -4,7 +4,7 @@ from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
-class DataLoader():
+class DataProccesor():
     """
     A class used to format sequence data for training
     """
@@ -31,6 +31,9 @@ class DataLoader():
         return (pd.read_csv(file, delimiter = ",", header=None)).to_numpy()
 
     def create_data(self):
+        """
+        Returns our data, labels, and pos_weights
+        """
         np.random.seed(0)
         encode_idx = np.random.choice(self.encode_fasta.shape[0], size = self.encode_fasta.shape[0], replace=False)
         self.encode_fasta = self.encode_fasta[encode_idx]
@@ -57,11 +60,33 @@ class DataLoader():
         print(pos_weight)
 
         return (data,label,pos_weight)
-
-        #still have to do split train set, and calculate pos weight, at https://github.com/aicb-ZhangLabs/scEpiLock/blob/master/deep_learning_module/data/pre_processor.py
     
-    def split_train_test():
-        pass
+    def split_train_test(self,data,label,test_size=0.1):
+        """divides our data into training, testing, and evalutation data"""
+        data_train_temp, data_test, label_train_temp, label_test\
+        = train_test_split(data, label, test_size=test_size, random_state=808)
+
+        data_train, data_eval, label_train, label_eval\
+        = train_test_split(data_train_temp, label_train_temp, test_size=test_size, random_state=808)
+        
+        return data_train, data_eval, data_test, label_train, label_eval, label_test, test_size
+
+    def find_DNA_complements(self,input_data,input_labels):
+        """Appends DNA complements sequences to our data and labels"""
+        comp_seqs = []
+        complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'N' : 'N'}
+        for seq in input_data:
+            comp_seq = ''
+            for base in seq:
+                comp_seq += complement[base]
+            comp_seqs.append(comp_seq)
+        
+        np_comp_seqs = np.array(comp_seqs, dtype=object)
+        input_data = np.append(self.data, np_comp_seqs, axis=0)
+        input_labels = np.append(self.data, np_comp_seqs, axis=0)
+
+
+        
 
 
         
