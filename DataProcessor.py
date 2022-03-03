@@ -4,7 +4,7 @@ from pathlib import Path
 
 from sklearn.model_selection import train_test_split
 
-class DataProccesor():
+class DataProcessor():
     """
     A class used to format sequence data for training
     """
