@@ -15,18 +15,25 @@ dylanPaths = {
 
 if __name__ == "__main__":
     dataProcessor = DataProcessor(**dylanPaths)
-    data,labels,weights = DataProcessor.create_data()
+
+    data,labels,weights = dataProcessor.create_data()
     
     print("Data Shape:", data.shape)
     print("Labels Shape:", labels.shape)
-    print("Weights", weights.shape)
+    print("Weights Length:", len(weights))
+
+    # print("Double/find complemnets for sequences (this takes forever)")
+    # dataProcessor.find_DNA_complements(data,labels)
+    # print("Complemnts Done")
 
     data_train, data_eval, data_test, label_train, \
     label_eval, label_test, test_size = dataProcessor.split_train_test(data, labels)
 
-    print("Double/find complemnets for sequences")
-    dataProcessor.find_DNA_complements(data,labels)
-    print("Complemnts Done")
+
+    trainer = Trainer(data_train, label_train, data_eval, label_train)
+
+    print("training")
+    trainer.train()
 
 
 
