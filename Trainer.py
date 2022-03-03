@@ -1,5 +1,7 @@
 from CAModel import CAModel
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import multilabel_confusion_matrix, classification_report, confusion_matrix
+import numpy as np
 
 class Trainer():
     """
@@ -26,8 +28,16 @@ class Trainer():
 
         validation_data_results = model.predict(self.data_eval)
 
-        score = accuracy_score(validation_data_results,self.label_eval)
 
-        print("score:", score)
+        validation_data_results.round()
+
+        y_test_arg=np.argmax(self.label_eval,axis=1)
+        Y_pred = np.argmax(model.predict(self.data_eval),axis=1)
+
+        print('Confusion Matrix')
+        print(confusion_matrix(y_test_arg, Y_pred))
+        
+        print('Accuracy')
+        print(accuracy_score(y_test_arg,Y_pred))
 
         return model

@@ -109,7 +109,7 @@ class DataProcessor():
                 row_index += 1
             new_data.append(feature)
             counter += 1
-        return np.array(new_data, dtype=object)
+        return np.array(new_data, dtype=object).astype('float32')
         
 
 
