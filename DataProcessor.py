@@ -70,6 +70,7 @@ class DataProcessor():
         
         return data_train, data_eval, data_test, label_train, label_eval, label_test, test_size
 
+    #the below methods are no longer needed since they are handled by our data generator
     def find_DNA_complements(self,input_data,input_labels):
         """Appends DNA complements sequences to our data and labels"""
         comp_seqs = []
