@@ -82,8 +82,8 @@ class DataProcessor():
             comp_seqs.append(comp_seq)
         
         np_comp_seqs = np.array(comp_seqs, dtype=object)
-        input_data = np.append(self.data, np_comp_seqs, axis=0)
-        input_labels = np.append(self.data, np_comp_seqs, axis=0)
+        input_data = np.append(input_data, np_comp_seqs, axis=0)
+        input_labels = np.append(input_labels, input_labels, axis=0)
     
     def convert_to_feature_vector(self,input_data):
         '''

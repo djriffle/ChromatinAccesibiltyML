@@ -18,7 +18,7 @@ class DataGenerator(keras.utils.Sequence):
         
         np_comp_seqs = np.array(comp_seqs, dtype=object)
         self.data = np.append(self.data, np_comp_seqs, axis=0)
-        self.label = np.append(self.data, np_comp_seqs, axis=0)
+        self.label = np.append(self.label, self.label, axis=0)
         
         self.shuffle = shuffle
         self.on_epoch_end()
