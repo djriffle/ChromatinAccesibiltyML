@@ -10,14 +10,13 @@ class CAModel():
     def __init__(self):
         #super simple multi-label model
         self.model = Sequential()
-        self.model.add(Dense(units=20 ,input_shape=(1000,4)))
+        self.model.add(Dense(units=20 ,input_shape=(4,1000)))
         self.model.add(Flatten())
         self.model.add(Dense(units=6, activation='sigmoid'))
-        self.model.compile(loss='binary_crossentropy', optimizer='adam')
         self.model.add(Softmax())
+        self.model.compile(loss='binary_crossentropy', optimizer='adam')
+        self.model.summary()
     
-        self.model.compile()
-        
     def getMode(self):
         return self.model
     
