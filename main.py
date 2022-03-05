@@ -1,4 +1,5 @@
 from DataProcessor import DataProcessor
+from DataGenerator import DataGenerator
 from Trainer import Trainer
 
 
@@ -21,7 +22,7 @@ udayanPaths = {
     'subset': False}
 
 if __name__ == "__main__":
-    dataProcessor = DataProcessor(**udayanPaths)
+    dataProcessor = DataProcessor(**dylanPaths)
 
     data,labels,weights = dataProcessor.create_data()
     
@@ -29,21 +30,14 @@ if __name__ == "__main__":
     print("Labels Shape:", labels.shape)
     print("Weights Length:", len(weights))
 
-    # print("Double/find complemnets for sequences (this takes forever)")
-    # dataProcessor.find_DNA_complements(data,labels)
-    # print("Complemnts Done")
+    data_train, data_eval, data_test, label_train, \
+    label_eval, label_test, test_size = dataProcessor.split_train_test(data, labels)
 
-    #data = dataProcessor.convert_to_feature_vector(data)
-    #print(data.shape)
+    gen_train = DataGenerator(data_train,label_train)
+    trainer = Trainer(gen_train, data_eval, label_eval)
 
-    #data_train, data_eval, data_test, label_train, \
-    #label_eval, label_test, test_size = dataProcessor.split_train_test(data, labels)
-
-
-    #trainer = Trainer(data_train, label_train, data_eval, label_eval)
-
-    #print("training")
-    #trainer.train()
+    print("training")
+    trainer.train()
 
 
 

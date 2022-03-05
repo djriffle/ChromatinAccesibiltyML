@@ -1,4 +1,6 @@
 from CAModel import CAModel
+from DataGenerator import DataGenerator
+
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import multilabel_confusion_matrix, classification_report, confusion_matrix
 import numpy as np
@@ -8,9 +10,8 @@ class Trainer():
     A class used to create our Keras model
     """
 
-    def __init__(self,data_train,label_train,data_eval,label_eval) -> None:
-        self.data_train = data_train
-        self.label_train = label_train
+    def __init__(self,gen_train,data_eval,label_eval) -> None:
+        self.gen_train = gen_train
 
         self.data_eval = data_eval
         self.label_eval = label_eval
@@ -24,7 +25,7 @@ class Trainer():
         #there are better techniques to train this 
 
         #we need to figure out how to turn the nucleotides into numbers for this to work
-        model.fit(self.data_train,self.label_train,epochs=100)
+        model.fit(self.gen_train,epochs=100)
 
         validation_data_results = model.predict(self.data_eval)
 

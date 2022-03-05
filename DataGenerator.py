@@ -1,7 +1,8 @@
 import numpy as np
 import keras
+from tensorflow.keras.utils import Sequence
 
-class DataGenerator(keras.utils.Sequence):
+class DataGenerator(Sequence):
     #generates data without creating RAM error
     def __init__(self, data, label, shuffle=True):
         self.data = data
@@ -29,7 +30,7 @@ class DataGenerator(keras.utils.Sequence):
     
     def __getitem__(self, index):
         #generate one batch of data
-
+        print("getting item")
         #get indexes of the batch
         index = self.indexes[index]
         label = self.label[index]
@@ -47,7 +48,6 @@ class DataGenerator(keras.utils.Sequence):
             elif base == 'C':
                 feature[row_index, 3] = 1
             row_index += 1
-
         return feature, label
         
         
