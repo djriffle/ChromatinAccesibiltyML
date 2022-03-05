@@ -16,6 +16,8 @@ class CAModel():
         self.model.compile(loss='binary_crossentropy', optimizer='adam')
         self.model.add(Softmax())
     
+        self.model.compile()
+        
     def getMode(self):
         return self.model
     

@@ -48,7 +48,11 @@ class DataGenerator(Sequence):
             elif base == 'C':
                 feature[row_index, 3] = 1
             row_index += 1
-        return feature, label
+
+        X = np.transpose(feature).astype(np.float32)
+        y = label.astype(np.float32)
+
+        return X, y
         
         
     def on_epoch_end(self):
