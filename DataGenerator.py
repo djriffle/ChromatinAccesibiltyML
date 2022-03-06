@@ -8,13 +8,24 @@ class DataGenerator(Sequence):
         self.data = data
         self.label = label
         #add reverse complement
+        print("creating completes")
+
+        seq_counter = 0
         comp_seqs = []
         complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'N' : 'N'}
         for seq in self.data:
+
+            if seq_counter % 100000 == 0:
+                print(f"complemented {seq_counter} of {self.data.shape[0]}")
+
             comp_seq = ''
             for base in seq:
                 comp_seq += complement[base]
             comp_seqs.append(comp_seq)
+            
+            seq_counter += 1
+
+        print("finsihed complements")
         
         np_comp_seqs = np.array(comp_seqs, dtype=object)
         self.data = np.append(self.data, np_comp_seqs, axis=0)
@@ -47,18 +58,13 @@ class DataGenerator(Sequence):
             elif base == 'C':
                 feature[row_index, 3] = 1
             row_index += 1
-        
+
         feature = np.array([feature], dtype='float32')
 
-        X = np.transpose([feature]).astype(np.float32)
-        y = np.array([label]).astype(np.float32)
-        print(X)
-        print(y)
-
         if(self,self.fit):
-            return X,y
+            return feature,label
         else:
-            return X
+            return feature
          
     def on_epoch_end(self):
         pass

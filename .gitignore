@@ -26,3 +26,5 @@ log.txt
 
 #where our sequence/training data goes
 /data
+#where we save our models
+/models

@@ -26,7 +26,7 @@ udayanPaths = {
 
 
 if __name__ == "__main__":
-    dataProcessor = DataProcessor(**dylanPaths)
+    dataProcessor = DataProcessor(**udayanPaths)
 
     data,labels,weights = dataProcessor.create_data()
     
@@ -40,20 +40,21 @@ if __name__ == "__main__":
     gen_train = DataGenerator(data_train,label_train)
     gen_eval = DataGenerator(data_eval,label_eval)
 
-    gen_predict_eval = DataGenerator(data_eval,label_eval,fit=False)
+    gen_test = DataGenerator(data_test,label_test,fit=False)
     
     
-    print("label_train", label_train.shape)
+    print("label_train shape", label_train.shape)
     print("data_eval shape", data_eval.shape)
-    print("label_eval shape", label_eval)
-    label_eval = np.array(label_eval,dtype='float32')
-    label_eval = np.append(label_eval,label_eval)
-    print(label_eval.shape)
-    trainer = Trainer(gen_train, gen_eval,gen_predict_eval,label_eval)
+    print("label_eval shape", label_eval.shape)
 
-    print(len(gen_predict_eval))
+    label_test = np.array(label_test,dtype='float32')
+    label_test = np.append(label_test,label_test,axis=0)
+    print("label_eval shape after append", label_test.shape)
+    trainer = Trainer(gen_train, gen_eval,gen_test,label_test)
+
+    print(len(gen_test))
     print("training")
-    #trainer.train()
+    trainer.train()
 
 
 
