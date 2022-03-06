@@ -49,12 +49,17 @@ class DataGenerator(Sequence):
             row_index += 1
         
         feature = np.array([feature], dtype='float32')
+
+        X = np.transpose([feature]).astype(np.float32)
+        y = np.array([label]).astype(np.float32)
+        print(X)
+        print(y)
+
         if(self,self.fit):
-            return feature,label
+            return X,y
         else:
-            return feature
-        
-        
+            return X
+         
     def on_epoch_end(self):
         pass
         #update the indexes after each epoch
