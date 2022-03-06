@@ -4,10 +4,9 @@ from tensorflow.keras.utils import Sequence
 
 class DataGenerator(Sequence):
     #generates data without creating RAM error
-    def __init__(self, data, label, shuffle=True):
+    def __init__(self, data, label, shuffle=True, fit=True):
         self.data = data
         self.label = label
-
         #add reverse complement
         comp_seqs = []
         complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'N' : 'N'}
@@ -23,6 +22,8 @@ class DataGenerator(Sequence):
         
         self.shuffle = shuffle
         self.on_epoch_end()
+
+        self.fit = fit
         
     def __len__(self):
         #tells the number of batches in each epoch
@@ -30,12 +31,10 @@ class DataGenerator(Sequence):
     
     def __getitem__(self, index):
         #generate one batch of data
-        print("getting item")
         #get indexes of the batch
-        index = self.indexes[index]
         label = self.label[index]
-
         seq = self.data[index]
+
         row_index = 0
         feature = np.zeros((len(seq),4))
         for base in seq:
@@ -48,14 +47,16 @@ class DataGenerator(Sequence):
             elif base == 'C':
                 feature[row_index, 3] = 1
             row_index += 1
-
-        X = np.transpose(feature).astype(np.float32)
-        y = label.astype(np.float32)
-
-        return X, y
+        
+        feature = np.array([feature], dtype='float32')
+        if(self,self.fit):
+            return feature,label
+        else:
+            return feature
         
         
     def on_epoch_end(self):
+        pass
         #update the indexes after each epoch
         self.indexes = np.arange(self.data.shape[0])
         if self.shuffle == True:

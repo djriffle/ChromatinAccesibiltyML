@@ -10,8 +10,9 @@ class Trainer():
     A class used to create our Keras model
     """
 
-    def __init__(self,gen_train,data_eval,label_eval) -> None:
+    def __init__(self,gen_train, gen_eval,data_eval,label_eval) -> None:
         self.gen_train = gen_train
+        self.gen_eval = gen_eval
 
         self.data_eval = data_eval
         self.label_eval = label_eval
@@ -25,7 +26,7 @@ class Trainer():
         #there are better techniques to train this 
 
         #we need to figure out how to turn the nucleotides into numbers for this to work
-        model.fit(self.gen_train,epochs=100)
+        model.fit(self.gen_train, validation_data=self.gen_eval, epochs=10)
 
         validation_data_results = model.predict(self.data_eval)
 

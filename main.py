@@ -1,6 +1,9 @@
+from websockets import Data
 from DataProcessor import DataProcessor
 from DataGenerator import DataGenerator
 from Trainer import Trainer
+
+import numpy as np
 
 
 #Dylan's personal paths for testing
@@ -21,6 +24,7 @@ udayanPaths = {
     'cell_cluster': [],
     'subset': False}
 
+
 if __name__ == "__main__":
     dataProcessor = DataProcessor(**dylanPaths)
 
@@ -34,12 +38,26 @@ if __name__ == "__main__":
     label_eval, label_test, test_size = dataProcessor.split_train_test(data, labels)
 
     gen_train = DataGenerator(data_train,label_train)
-    trainer = Trainer(gen_train, data_eval, label_eval)
+    gen_eval = DataGenerator(data_eval,label_eval)
 
+    gen_predict_eval = DataGenerator(data_eval,label_eval,fit=False)
+    
+    
+    print("label_train", label_train.shape)
+    print("data_eval shape", data_eval.shape)
+    print("label_eval shape", label_eval)
+    label_eval = np.array(label_eval,dtype='float32')
+    label_eval = np.append(label_eval,label_eval)
+    print(label_eval.shape)
+    trainer = Trainer(gen_train, gen_eval,gen_predict_eval,label_eval)
+
+    print(len(gen_predict_eval))
     print("training")
-    trainer.train()
+    #trainer.train()
 
 
+
+        
 
 
     
